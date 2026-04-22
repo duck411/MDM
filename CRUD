@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert & Display</title>
+</head>
+<body>
+
+<?php
+$conn = mysqli_connect("localhost", "root", "anurag1134", "test");
+
+// INSERT
+if (isset($_POST['save'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+
+    mysqli_query($conn, "INSERT INTO users(name,email) VALUES('$name','$email')");
+}
+?>
+
+<h3>Add User Data</h3>
+                                         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++9
+<form method="post">
+    Name: <input type="text" name="name" required><br><br>
+    Email: <input type="email" name="email" required><br><br>
+    <input type="submit" name="save" value="Save">
+</form>
+
+<br>
+
+<h3>User List</h3>
+
+<table border="1px">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+
+    <?php
+    $result = mysqli_query($conn, "SELECT * FROM users");
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>" . $row['id'] . "</td>";
+        echo "<td>" . $row['name'] . "</td>";
+        echo "<td>" . $row['email'] . "</td>";
+        echo "</tr>";
+    }
+    ?>
+</table>
+
+</body>
+</html>
