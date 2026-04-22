@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dynamic Search</title>
+  </head>
+  <body>
+    <h2>Search Users</h2>
+
+    <input
+      type="text"
+      id="search"
+      placeholder="Type name..."
+      onkeyup="searchData()"
+    />
+
+    <ul id="result"></ul>
+
+    <script>
+      function searchData() {
+        let query = document.getElementById("search").value;
+
+        if (query.length == 0) {
+          document.getElementById("result").innerHTML = "";
+          return;
+        }
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://jsonplaceholder.typicode.com/users", true);
+
+        xhr.onload = function () {
+          let data = JSON.parse(xhr.responseText);
+          let output = "";
+
+          data.forEach(function (user) {
+            if (user.name.toLowerCase().includes(query.toLowerCase())) {
+              output += "<li>" + user.name + "</li>";
+            }
+          });
+
+          document.getElementById("result").innerHTML = output;
+        };
+
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>
